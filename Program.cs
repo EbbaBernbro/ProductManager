@@ -29,6 +29,7 @@ class Program
             WriteLine("3. Avsluta");
 
             // true to not display the pressed key
+            //new Function?
             var keyPressed = ReadKey(intercept: true);
 
             Clear();
@@ -143,14 +144,54 @@ class Program
       //om villkoret (product inte(!=) är tomt/null) skriv ut info, annars skriv ut felmeddelande.
       if (product is not null)
       {
-        WriteLine($"Produktens namn: {product.ProductName}");
-        WriteLine($"SKU: {product.SKU}");
-        WriteLine($"Beskrivning: {product.Description}");
-        WriteLine($"Bild (url): {product.Image}");
-        WriteLine($"Pris: {product.Price}");
+          bool removalConfirmed = false;
 
-        WriteLine("Tryck ESC för att gå tillbaka till menyn.");
-        WaitUntil(ConsoleKey.Escape);
+          while (!removalConfirmed)
+          {
+
+            WriteLine($"Produktens namn: {product.ProductName}");
+            WriteLine($"SKU: {product.SKU}");
+            WriteLine($"Beskrivning: {product.Description}");
+            WriteLine($"Bild (url): {product.Image}");
+            WriteLine($"Pris: {product.Price}");
+            WriteLine(" ");
+            WriteLine("(R)adera");
+            WriteLine("Tryck ESC för att gå tillbaka till menyn.");
+
+
+            var keyPressed = ReadKey(intercept: true);
+            if(keyPressed.Key == ConsoleKey.R)
+            {
+              Clear();
+              WriteLine("Är du säker på att du vill radera produkten?");
+              WriteLine("(J)a   (N)ej");
+
+              var confirmDelete = ReadKey(intercept:true);
+
+              if(confirmDelete.Key == ConsoleKey.J)
+              {
+                Clear();
+                products.Remove(product);
+                WriteLine("Produkten har raderats");
+                Thread.Sleep(2000);
+                removalConfirmed = true; //Set boolean to true to exit the loop
+                return;
+              }
+
+              else
+              {
+                Clear();
+              }
+              
+            }
+            else if (keyPressed.Key == ConsoleKey.Escape)
+            {
+              return;
+            }
+          }
+
+        // WaitUntil(ConsoleKey.Escape); Why did we use this in the beginning?
+
       }
 
       else
@@ -171,6 +212,9 @@ class Program
       return products.Find(x => x.SKU == sku);
     }
 
+    //Why?
+    //WaitUntil takes ConsoleKey as a parameter.
+    //The ReadKey waits for a key press and returns a ConsoleKeyInfo object > .Key.
     private static void WaitUntil(ConsoleKey key){
       while (ReadKey(true).Key != key);
     }
