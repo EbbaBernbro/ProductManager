@@ -65,7 +65,10 @@ class Program
 
   private static void ShowRegisterProductView()
     {
-
+        bool productInfoConfirmed = false;
+        while(!productInfoConfirmed)
+        {
+          
         //Här sparas användarens input i referensvariabler (string)
         Write("Produktens namn: ");
 
@@ -100,16 +103,30 @@ class Program
 
             try
             {
+              WriteLine("Är detta korrekt?  (J)a  (N)ej");
+
+              var confirmProductInfo = ReadKey(intercept:true);
+
+              if (confirmProductInfo.Key == ConsoleKey.J)
+              {
                 //Skicka in produkten i metoden SaveProduct
                 SaveProduct(product);
+                Thread.Sleep(2000);
+                productInfoConfirmed = true;
+              }
+
+              else
+              {
+                Clear();
+              }
+                
             }
             catch(Exception ex)
             {
                 WriteLine(ex.Message);
             }
 
-
-        Thread.Sleep(2000);
+        }
     }
 
     
