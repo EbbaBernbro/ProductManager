@@ -117,6 +117,11 @@ class Program
     //Metod som hanterar .Add och tar product som parameter
     private static void SaveProduct(Product product)
     {
+        using var context = new ApplicationDbContext();
+
+        context.Product.Add(product);
+
+        context.SaveChanges();
 
         if (products.Any(x => x.SKU == product.SKU))
         {
