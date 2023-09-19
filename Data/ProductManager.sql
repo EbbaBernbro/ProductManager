@@ -1,0 +1,16 @@
+CREATE DATABASE ProductManager
+GO
+
+USE ProductManager
+GO
+
+CREATE TABLE Product(
+	ProductName NVARCHAR(50) NOT NULL,
+	SKU NVARCHAR(50) NOT NULL,
+	Description NVARCHAR(50) NOT NULL,
+	Image NVARCHAR(50) NOT NULL,
+	Price NCHAR(7) NOT NULL,
+
+	PRIMARY KEY (SKU),
+	UNIQUE (SKU)
+)

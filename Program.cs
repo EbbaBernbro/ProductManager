@@ -29,7 +29,6 @@ class Program
             WriteLine("3. Avsluta");
 
             // true to not display the pressed key
-            //new Function?
             var keyPressed = ReadKey(intercept: true);
 
             Clear();
@@ -70,26 +69,11 @@ class Program
         {
           
         //Här sparas användarens input i referensvariabler (string)
-        Write("Produktens namn: ");
-
-        string productName = ReadLine();
-
-        Write("SKU: ");
-
-        string sku = ReadLine();
-
-        Write("Beskrivning: ");
-
-        string description = ReadLine();
-
-        Write("Bild (url): ");
-
-        string image = ReadLine();
-
-        Write("Pris: ");
-
-        string price = ReadLine();
-
+        string productName = GetUserInput("Produktens namn: ");
+        string sku = GetUserInput("SKU: ");
+        string description = GetUserInput("Beskrivning: ");
+        string image = GetUserInput("Bild (url): ");
+        string price = GetUserInput("Pris: ");
 
             //variabel product = new Product från Domain?
             var product = new Product
@@ -150,9 +134,7 @@ class Program
 
     private static void ShowSearchProductView() 
     {
-      Write("Ange produktens SKU: ");
-
-      string sku = ReadLine();
+      string sku = GetUserInput("Ange produktens SKU: ");
 
       Clear();
 
@@ -234,6 +216,13 @@ class Program
     //The ReadKey waits for a key press and returns a ConsoleKeyInfo object > .Key.
     private static void WaitUntil(ConsoleKey key){
       while (ReadKey(true).Key != key);
+    }
+
+    private static string GetUserInput(string descriptionTag)
+    {
+        Write($"{descriptionTag}: ");
+
+        return ReadLine() ?? "";
     }
 
 }
