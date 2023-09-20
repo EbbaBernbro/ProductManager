@@ -6,10 +6,6 @@ namespace ProductManager;
 
 class Program
 {
-
-  // List<T>, create a list object of type <Student> called products
-  static List<Product> products = new List<Product>();
-
 // Private - funktioner kan endast nås inom egna klassen
 // Static - Du behöver inte en instans av ett objekt för att anropa funktionen
 // Void - returnerar ingenting
@@ -59,7 +55,6 @@ class Program
 
             Clear();
         }
-
   }
 
   private static void ShowRegisterProductView()
@@ -95,21 +90,19 @@ class Program
               {
                 //Skicka in produkten i metoden SaveProduct
                 SaveProduct(product);
+                WriteLine("Produkt registrerad");
                 Thread.Sleep(2000);
                 productInfoConfirmed = true;
               }
-
-              else
-              {
-                Clear();
-              }
                 
             }
-            catch(Exception ex)
+            catch
             {
-                WriteLine(ex.Message);
+                WriteLine("Produkt redan registrerad");
+                Thread.Sleep(2000);
+                //WriteLine(ex.Message);
             }
-
+        Clear();
         }
     }
 
@@ -122,19 +115,15 @@ class Program
         context.Product.Add(product);
 
         context.SaveChanges();
+    }
 
-        if (products.Any(x => x.SKU == product.SKU))
-        {
-          throw new Exception("Produkt redan registrerad!");
-        }
+    private static void DeleteProduct(Product product)
+    {
+        using var context = new ApplicationDbContext();
 
-        else 
-        {
-          //lägg till produkt till listan. Representerar en databas/samling information i det här stadiet.
-          products.Add(product);
-          WriteLine("Produkt sparad");
-        }
+        context.Product.Remove(product);
 
+        context.SaveChanges();
     }
 
     private static void ShowSearchProductView() 
@@ -152,6 +141,7 @@ class Program
 
           while (!removalConfirmed)
           {
+            Clear();
 
             WriteLine($"Produktens namn: {product.ProductName}");
             WriteLine($"SKU: {product.SKU}");
@@ -175,33 +165,23 @@ class Program
               if(confirmDelete.Key == ConsoleKey.J)
               {
                 Clear();
-                products.Remove(product);
+                DeleteProduct(product);
                 WriteLine("Produkten har raderats");
                 Thread.Sleep(2000);
                 removalConfirmed = true; //Set boolean to true to exit the loop
-                return;
               }
 
-              else
-              {
-                Clear();
-              }
-              
             }
             else if (keyPressed.Key == ConsoleKey.Escape)
             {
               return;
             }
           }
-
-        // WaitUntil(ConsoleKey.Escape); Why did we use this in the beginning?
-
       }
 
       else
       {
         WriteLine("Kunde inte hitta produkten");
-
         Thread.Sleep(2000);
       }
 
@@ -210,22 +190,18 @@ class Program
     // ? declares a nullable type, and means that the type before it may have a null value.
     private static Product? GetProductBySKU(string sku){
 
-      //products = array
-      //"x" is the parameter to the lambda expression. It represents each element in the "products" collection as it iterates over them.
-      //"x.SKU == sku" is the condition we're checking.
-      return products.Find(x => x.SKU == sku);
-    }
+      using var context = new ApplicationDbContext();
 
-    //Why?
-    //WaitUntil takes ConsoleKey as a parameter.
-    //The ReadKey waits for a key press and returns a ConsoleKeyInfo object > .Key.
-    private static void WaitUntil(ConsoleKey key){
-      while (ReadKey(true).Key != key);
+      var product = context
+            .Product
+            .FirstOrDefault(product => product.SKU == sku);
+
+      return product;
     }
 
     private static string GetUserInput(string descriptionTag)
     {
-        Write($"{descriptionTag}: ");
+        Write($"{descriptionTag}");
 
         return ReadLine() ?? "";
     }

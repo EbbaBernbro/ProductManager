@@ -1,7 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace ProductManager.Domain;
 
+//Index har vi i en databas för att påskyna sökning av ett värde
+[Index(nameof(SKU), IsUnique = true)]
 class Product
 {
   //Entiteten product behöver en primärnyckel
