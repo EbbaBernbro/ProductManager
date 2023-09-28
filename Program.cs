@@ -1,4 +1,4 @@
-﻿//Klasser som fångar beteenden för andra funktioner vil lägga i andra kataloger, ofta döpt till Domain.
+﻿//Klasser som fångar beteenden för andra funktioner vill vi lägga i andra kataloger, ofta döpt till Domain.
 using ProductManager.Domain;
 using static System.Console;
 
@@ -70,7 +70,7 @@ class Program
         string image = GetUserInput("Bild (url): ");
         string price = GetUserInput("Pris: ");
 
-            //variabel product = new Product från Domain?
+            //variabel product = new Product från Domain
             var product = new Product
             {
                 ProductName = productName,

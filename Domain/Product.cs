@@ -27,3 +27,4 @@ class Product
   public required string Price { get; set;}
 
 }
+                        

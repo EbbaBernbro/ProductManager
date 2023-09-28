@@ -6,4 +6,6 @@ Enkel konsolapplikation för hantering av produkter.
 
 1. Klona repot.
 
-2. Starta applikationen.
+2. Sätt upp databasen.
+
+3. Starta applikationen.
